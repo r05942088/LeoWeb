@@ -1,0 +1,222 @@
+<!-- base.html -->
+<!DOCTYPE html>
+<html lang="en">
+{% load staticfiles %}
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Material Design Bootstrap</title>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css">
+    <!-- Bootstrap core CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.7.5/css/mdb.min.css" rel="stylesheet">
+ 
+<link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Play:700,400' type='text/css'>
+    
+    <script type="text/javascript" src="http://iop.io/js/vendor/d3.v3.min.js"></script>
+    <script type="text/javascript" src="http://iop.io/js/vendor/polymer/PointerEvents/pointerevents.js"></script>
+    <script type="text/javascript" src="http://iop.io/js/vendor/polymer/PointerGestures/pointergestures.js"></script>
+    <script type="text/javascript" src="http://iop.io/js/iopctrl.js"></script>
+
+<style>
+        body {
+            font: 16px arial;
+            background-color: #fff;
+            
+        }
+
+        .unselectable {
+            -moz-user-select: -moz-none;
+            -khtml-user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        /* css formats for the gauge */
+        .gauge .domain {
+            stroke-width: 2px;
+            stroke: #515151;
+        }
+
+        .gauge .tick line {
+            stroke: #515151;;
+            stroke-width: 2px;
+        }
+        
+        .gauge line {
+            stroke: #515151;
+        }
+
+        .gauge .arc, .gauge .cursor {
+            opacity: 0;
+        }
+
+        .gauge .major {
+            fill: #515151;
+            font-size: 20px;
+            font-family: 'Play', verdana, sans-serif;
+            font-weight: normal;
+        }
+        
+        .gauge .indicator {
+            stroke: #EE3311;
+            fill: #000;
+            stroke-width: 4px;
+        }
+
+        /* css formats for the segment display */
+        .segdisplay .on {
+            fill: #00FFFF;
+
+        }
+
+        .segdisplay .off {
+            fill: #00FFFF;
+            opacity: 0;
+        }
+    </style>    
+ 
+</head>
+
+<body>
+  <!-- Start your project here-->
+  
+
+  {% include 'header.html' %}
+
+    <!-- Grid container -->
+    <div class="container-fluid">
+    
+      <!--Grid row-->
+      <div class="row align-items-end">
+        
+        <!-- Grid column -->
+        
+        <div class="col-md-9 align-self-center">
+        {% include 'position.html' %}
+       </div>
+        <!-- Grid column -->
+        
+        <!-- Grid column -->
+        <div class="col-md-3 align-self-center">
+          
+          
+          <!-- Grid row -->
+          <div class="row-sm align-items-end">
+          {% include 'datarate.html' %}
+          </div>
+          <!-- Grid row -->
+         
+          <!-- Grid row -->
+          
+          <div class="row-sm align-items-end">
+          
+          
+          <div class="col-md align-self-center">
+          <div style="height: 300px;">
+          {% include 'video.html' %}
+          <div class="col-md-3 align-self-center">
+          </div>
+          </div>
+          </div>
+          <!-- Grid row -->
+        </div>
+        <!-- Grid column -->
+        
+      </div>
+      </div>
+    </div>
+    <!-- Grid container -->
+  
+  
+  <!-- Footer -->
+  <footer class="page-footer font-small blue">
+
+  <!-- Copyright -->
+  <div class="footer-copyright text-center py-3">e-mail: r05942088@ntu.edu.tw</p>
+  </div>
+  <!-- Copyright -->
+
+</footer>
+<!-- Footer -->
+  <!-- /Start your project here-->
+
+<!-- SCRIPTS -->
+<!-- JQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<!-- Bootstrap tooltips -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
+<!-- Bootstrap core JavaScript -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<!-- MDB core JavaScript -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.7.5/js/mdb.min.js"></script> 
+<!-- D3.js JavaScript -->
+<script type="text/javascript" src="http://mbostock.github.com/d3/d3.js"></script>
+<!-- Custom JavaScript  -->
+<script src="{% static "js/position.js" %}"></script>
+<script src="{% static "js/guage.js" %}"></script>
+
+<script>
+                
+        
+    var gauges = [];
+    
+    function createGauge(name, label, min, max)
+    {
+        var config = 
+        {
+            size: 120,
+            label: label,
+            min: undefined != min ? min : 0,
+            max: undefined != max ? max : 100,
+            minorTicks: 5
+        }
+        
+        var range = config.max - config.min;
+        config.yellowZones = [{ from: config.min + range*0.75, to: config.min + range*0.9 }];
+        config.redZones = [{ from: config.min + range*0.9, to: config.max }];
+        
+        gauges[name] = new Gauge(name + "GaugeContainer", config);
+        gauges[name].render();
+    }
+    
+    function createGauges()
+    {
+        createGauge("memory", "Memory");
+        createGauge("cpu", "CPU");
+        createGauge("network", "Network");
+        //createGauge("test", "Test", -50, 50 );
+    }
+    
+    function updateGauges()
+    {
+        for (var key in gauges)
+        {
+            var value = getRandomValue(gauges[key])
+            gauges[key].redraw(value);
+        }
+    }
+    
+    function getRandomValue(gauge)
+    {
+        var overflow = 0; //10;
+        return gauge.config.min - overflow + (gauge.config.max - gauge.config.min + overflow*2) *  Math.random();
+    }
+    
+    function initialize()
+    {
+        createGauges();
+        setInterval(updateGauges, 5000);
+    }
+    
+</script> 
+ 
+</body>
+</html>
