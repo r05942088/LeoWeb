@@ -9,8 +9,6 @@ import models as m
 class PositionAdmin(admin.ModelAdmin):
     list_display = ('x', 'y')
     
-class DatarateAdmin(admin.ModelAdmin):
-    list_display = ('dr',)
 
 @admin.register(m.Stream)
 class StreamAdmin(admin.ModelAdmin):
@@ -18,4 +16,3 @@ class StreamAdmin(admin.ModelAdmin):
     readonly_fields = ("hls_url",)    
 
 admin.site.register(m.Position, PositionAdmin)
-admin.site.register(m.Datarate, DatarateAdmin)

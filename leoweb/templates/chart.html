@@ -1,0 +1,69 @@
+<!-- # chart.html -->
+
+
+<script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js'></script>
+<script>
+var endpoint = 'api/data/'
+var defaultData = []
+var labels = []
+$.ajax({
+    method: 'GET',
+    url: endpoint,
+    success: function(data){
+        console.log(data)
+        labels = data.labels
+        defaultData = data.data
+        console.log(labels)        
+        console.log(defaultData)        
+        setChart();
+    },
+    error: function(error_data){
+      console.log('error'); 
+    }
+})
+
+function setChart() {
+    var ctxBc = document.getElementById('bubbleChart').getContext('2d');
+
+    var bubbleChart = new Chart(ctxBc, {
+    type: 'bubble',
+    data: {
+      datasets: [{
+        label: 'Anchor',
+        data: [{
+          x: 0,
+          y: 0,
+          r: 10
+        },{
+          x: 10,
+          y: 10,
+          r: 10
+        },{
+          x: 10,
+          y: 0,
+          r: 10
+        },{
+          x: 0,
+          y: 10,
+          r: 10
+        }],
+        backgroundColor: "#62088A",
+        hoverBackgroundColor: "#62088A"
+      }, {
+        label: 'Tag',
+        data: [{
+      x: 5,
+      y: 5,
+      r: 10
+    }],
+        
+        backgroundColor: "#ff6384",
+        hoverBackgroundColor: "#ff6384"
+      }]
+    }
+    })
+}
+
+</script>
+
+<canvas id="bubbleChart" width="400" height="400"></canvas>

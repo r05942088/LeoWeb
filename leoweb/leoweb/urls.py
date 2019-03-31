@@ -13,10 +13,14 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url
+from django.conf.urls import url, include
 from django.contrib import admin
-
+from rest_framework.routers import DefaultRouter
 import mainsite.views as views
+import datarates.views
+
+router = DefaultRouter()
+router.register(r'datarate', datarates.views.DatarateViewSet)
 
 def fake_view(*args, **kwargs):
     """ This view should never be called because the URL paths
@@ -30,4 +34,6 @@ urlpatterns = [
     url(r'^start_stream', views.start_stream, name="start-stream"),
     url(r'^stop_stream', views.stop_stream, name="stop-stream"),
     url(r'live/<username>/index.m3u8', fake_view, name="hls-url"),
+    url(r'^api/', include(router.urls)),
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]

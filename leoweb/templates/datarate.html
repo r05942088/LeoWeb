@@ -1,45 +1,64 @@
 <!-- daterate.html -->
 <div>
-        <span id="speedometer"></span>
-    </div>
+    <span id="speedometer"></span>
+</div>
+
+<p id="test">{{dr}}</p>
+
+<script>
     
-    <script>
-        var svg = d3.select("#speedometer")
-                .append("svg:svg")
-                .attr("width", 400)
-                .attr("height", 400);
-
-
-        var gauge = iopctrl.arcslider()
-                .radius(120)
-                .events(false)
-                .indicator(iopctrl.defaultGaugeIndicator);
-        gauge.axis().orient("in")
-                .normalize(true)
-                .ticks(12)
-                .tickSubdivide(3)
-                .tickSize(10, 8, 10)
-                .tickPadding(5)
-                .scale(d3.scale.linear()
-                        .domain([0, 160])
-                        .range([-3*Math.PI/4, 3*Math.PI/4]));
-
-        var segDisplay = iopctrl.segdisplay()
-                .width(80)
-                .digitCount(6)
-                .negative(false)
-                .decimals(0);
-
-        svg.append("g")
-                .attr("class", "segdisplay")
-                .attr("transform", "translate(130, 200)")
-                .call(segDisplay);
-
-        svg.append("g")
-                .attr("class", "gauge")
-                .call(gauge);
-
-        segDisplay.value(56749);
-        gauge.value(92);
+   
     
-    </script>
+    var svg = d3.select("#speedometer")
+            .append("svg:svg")
+            .attr("width", 400)
+            .attr("height", 400);
+    var gauge = iopctrl.arcslider()
+            .radius(120)
+            .events(false)
+            .indicator(iopctrl.defaultGaugeIndicator);
+    gauge.axis().orient("in")
+            .normalize(true)
+            .ticks(6)
+            .tickSubdivide(3)
+            .tickSize(10, 8, 10)
+            .tickPadding(5)
+            .scale(d3.scale.linear()
+                    .domain([0, 300])
+                    .range([-3*Math.PI/4, 3*Math.PI/4]));
+    var segDisplay = iopctrl.segdisplay()
+            .width(80)
+            .digitCount(6)
+            .negative(false)
+            .decimals(0);
+    svg.append("g")
+            .attr("class", "segdisplay")
+            .attr("transform", "translate(130, 200)")
+            .call(segDisplay);
+    svg.append("g")
+            .attr("class", "gauge")
+            .call(gauge);
+    segDisplay.value(200);
+    gauge.value(200);
+    
+    
+    var xhttp = new XMLHttpRequest();
+    function loadDoc() {
+      
+      xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+        var.result = document.getElementById('test');
+        xhttp.response.forEach(function(value)){
+         segDisplay.value(value.dr);
+         gauge.value(value.dr);
+         }
+        }
+      };
+      xhttp.open("GET", "http://192.168.152.129:8000/api/datarate/4", true);
+      xhttp.responseType = "json";
+      xhttp.send();
+    }
+    
+    
+    
+</script>

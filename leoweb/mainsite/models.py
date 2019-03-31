@@ -17,8 +17,6 @@ class Position(models.Model):
     x = models.FloatField()
     y = models.FloatField()
     
-class Datarate(models.Model):
-    dr = models.FloatField()
     
 class Stream(models.Model):
 
