@@ -14,41 +14,37 @@ $.ajax({
         // console.log(data[1].humidity);
         let len = data.length;
         let humid = data[len - 1].humidity;
-        var chart = c3.generate({
-            bindto: '#live',
-            data: {
-                columns: [
-                    ['data', humid]
-                ],
-                type: 'gauge',
-                onclick: function (d, i) { console.log("onclick", d, i); },
-                onmouseover: function (d, i) { console.log("onmouseover", d, i); },
-                onmouseout: function (d, i) { console.log("onmouseout", d, i); }
-            },
-            gauge: {
-        //        label: {
-        //            format: function(value, ratio) {
-        //                return value;
-        //            },
-        //            show: false // to turn off the min/max labels.
-        //        },
-        //    min: 0, // 0 is default, //can handle negative min e.g. vacuum / voltage / current flow / rate of change
-        //    max: 100, // 100 is default
-        //    units: ' %',
-        //    width: 39 // for adjusting arc thickness
-            },
-            color: {
-                pattern: ['#FF0000', '#F97600', '#F6C600', '#60B044'], // the three color levels for the percentage values.
-                threshold: {
-        //            unit: 'value', // percentage is default
-        //            max: 200, // 100 is default
-                    values: [30, 60, 90, 100]
-                }
-            },
-            size: {
-                height: 180
-            }
-        });
+        var svg = d3.select("#speedometer")
+                .append("svg:svg")
+                .attr("width", 400)
+                .attr("height", 400);
+        var gauge = iopctrl.arcslider()
+                .radius(120)
+                .events(false)
+                .indicator(iopctrl.defaultGaugeIndicator);
+        gauge.axis().orient("in")
+                .normalize(true)
+                .ticks(6)
+                .tickSubdivide(3)
+                .tickSize(10, 8, 10)
+                .tickPadding(5)
+                .scale(d3.scale.linear()
+                        .domain([0, 300])
+                        .range([-3*Math.PI/4, 3*Math.PI/4]));
+        var segDisplay = iopctrl.segdisplay()
+                .width(80)
+                .digitCount(6)
+                .negative(false)
+                .decimals(0);
+        svg.append("g")
+                .attr("class", "segdisplay")
+                .attr("transform", "translate(130, 200)")
+                .call(segDisplay);
+        svg.append("g")
+                .attr("class", "gauge")
+                .call(gauge);
+        segDisplay.value(200);
+        gauge.value(200);
     }
 });
 

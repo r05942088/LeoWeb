@@ -18,9 +18,11 @@ from django.contrib import admin
 from rest_framework.routers import DefaultRouter
 import mainsite.views as views
 import datarates.views
+import position.views
 
 router = DefaultRouter()
 router.register(r'datarate', datarates.views.DatarateViewSet)
+router.register(r'position', position.views.PositionViewSet)
 
 def fake_view(*args, **kwargs):
     """ This view should never be called because the URL paths

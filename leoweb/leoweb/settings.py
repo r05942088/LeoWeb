@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'mainsite',
     'rest_framework',
     'datarates',
+    'position',
 ]
 
 MIDDLEWARE = [

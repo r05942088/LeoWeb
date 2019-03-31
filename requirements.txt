@@ -1,2 +1,4 @@
 Django==1.11.20
+djangorestframework==3.9.2
 pytz==2018.9
+virtualenv==16.4.3
