@@ -264,7 +264,78 @@ function Gauge(placeholderName, configuration)
 	this.configure(configuration);	
 }
 
-const updateInverval = 1000; // ms
+var svg = d3.select("#speedometer")
+                .append("svg:svg")
+                .attr("width", 400)
+                .attr("height", 400);
+var gauge = iopctrl.arcslider()
+                .radius(120)
+                .events(false)
+                .indicator(iopctrl.defaultGaugeIndicator);
+gauge.axis().orient("in")
+                .normalize(true)
+                .ticks(6)
+                .tickSubdivide(3)
+                .tickSize(10, 8, 10)
+                .tickPadding(5)
+                .scale(d3.scale.linear()
+                                .domain([0, 300])
+                                .range([-3*Math.PI/4, 3*Math.PI/4]));
+var segDisplay = iopctrl.segdisplay()
+                .width(80)
+                .digitCount(6)
+                .negative(false)
+                .decimals(0);
+svg.append("g")
+                .attr("class", "segdisplay")
+                .attr("transform", "translate(130, 200)")
+                .call(segDisplay);
+svg.append("g")
+                .attr("class", "gauge")
+                .call(gauge);
+segDisplay.value(0);
+gauge.value(0);
+
+var ctxBc = document.getElementById('bubbleChart').getContext('2d');
+var bubbleChart = new Chart(ctxBc, {
+        type: 'bubble',
+        data: {
+            datasets: [{
+                label: 'Anchor',
+                data: [{
+                    x: 0,
+                    y: 0,
+                    r: 10
+                },{
+                    x: 10,
+                    y: 10,
+                    r: 10
+                },{
+                    x: 10,
+                    y: 0,
+                    r: 10
+                },{
+                    x: 0,
+                    y: 10,
+                    r: 10
+                }],
+                backgroundColor: "#62088A",
+                hoverBackgroundColor: "#62088A"
+                }, {
+                label: 'Tag',
+                data: [{
+                    x: 1,
+                    y: 1,
+                    r: 10
+                }],
+                
+                backgroundColor: "#ff6384",
+                hoverBackgroundColor: "#ff6384"
+                }]
+        }
+})
+
+const updateInverval = 100; // ms
 setInterval(() => {
 
 	// datarate
@@ -275,35 +346,6 @@ setInterval(() => {
 		success: function(data) {
 				let len = data.length;
 				let dr = data[len - 1].dr;
-				var svg = d3.select("#speedometer")
-								.append("svg:svg")
-								.attr("width", 400)
-								.attr("height", 400);
-				var gauge = iopctrl.arcslider()
-								.radius(120)
-								.events(false)
-								.indicator(iopctrl.defaultGaugeIndicator);
-				gauge.axis().orient("in")
-								.normalize(true)
-								.ticks(6)
-								.tickSubdivide(3)
-								.tickSize(10, 8, 10)
-								.tickPadding(5)
-								.scale(d3.scale.linear()
-												.domain([0, 300])
-												.range([-3*Math.PI/4, 3*Math.PI/4]));
-				var segDisplay = iopctrl.segdisplay()
-								.width(80)
-								.digitCount(6)
-								.negative(false)
-								.decimals(0);
-				svg.append("g")
-								.attr("class", "segdisplay")
-								.attr("transform", "translate(130, 200)")
-								.call(segDisplay);
-				svg.append("g")
-								.attr("class", "gauge")
-								.call(gauge);
 				segDisplay.value(dr);
 				gauge.value(dr);
 						}
@@ -317,45 +359,11 @@ setInterval(() => {
 		success: function(data) {
 				let len = data.length;
 				let x = data[len - 1].x;
-				let y = data[len - 1].y;
-				var ctxBc = document.getElementById('bubbleChart').getContext('2d');
-				var bubbleChart = new Chart(ctxBc, {
-						type: 'bubble',
-						data: {
-							datasets: [{
-								label: 'Anchor',
-								data: [{
-									x: 0,
-									y: 0,
-									r: 10
-								},{
-									x: 10,
-									y: 10,
-									r: 10
-								},{
-									x: 10,
-									y: 0,
-									r: 10
-								},{
-									x: 0,
-									y: 10,
-									r: 10
-								}],
-								backgroundColor: "#62088A",
-								hoverBackgroundColor: "#62088A"
-								}, {
-								label: 'Tag',
-								data: [{
-									x: x,
-									y: y,
-									r: 10
-								}],
-								
-								backgroundColor: "#ff6384",
-								hoverBackgroundColor: "#ff6384"
-								}]
-						}
-				})
+				let y = data[len - 1].y;	
+                bubbleChart.data.datasets[1].data[0].x = x;
+                bubbleChart.data.datasets[1].data[0].y = y;
+                console.log(bubbleChart.data.datasets[1].data[0]);
+                bubbleChart.update();
 		}
 	});
 
