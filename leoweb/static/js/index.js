@@ -30,7 +30,7 @@ function Gauge(placeholderName, configuration)
 		this.config.redColor 	= configuration.redColor || "#DC3912";
 		
 		this.config.transitionDuration = configuration.transitionDuration || 500;
-	}
+	}  
 
 	this.render = function()
 	{
@@ -264,94 +264,101 @@ function Gauge(placeholderName, configuration)
 	this.configure(configuration);	
 }
 
-// datarate
-$.ajax({
-    type: "GET",
-    url: host_datarate,
-    contentType: "application/json",
-    success: function(data) {
-        let len = data.length;
-        let dr = data[len - 1].dr;
-        var svg = d3.select("#speedometer")
-                .append("svg:svg")
-                .attr("width", 400)
-                .attr("height", 400);
-        var gauge = iopctrl.arcslider()
-                .radius(120)
-                .events(false)
-                .indicator(iopctrl.defaultGaugeIndicator);
-        gauge.axis().orient("in")
-                .normalize(true)
-                .ticks(6)
-                .tickSubdivide(3)
-                .tickSize(10, 8, 10)
-                .tickPadding(5)
-                .scale(d3.scale.linear()
-                        .domain([0, 300])
-                        .range([-3*Math.PI/4, 3*Math.PI/4]));
-        var segDisplay = iopctrl.segdisplay()
-                .width(80)
-                .digitCount(6)
-                .negative(false)
-                .decimals(0);
-        svg.append("g")
-                .attr("class", "segdisplay")
-                .attr("transform", "translate(130, 200)")
-                .call(segDisplay);
-        svg.append("g")
-                .attr("class", "gauge")
-                .call(gauge);
-        segDisplay.value(dr);
-        gauge.value(dr);
-            }
-});
+const updateInverval = 1000; // ms
+setInterval(() => {
 
-// position
-$.ajax({
-    type: "GET",
-    url: host_position,
-    contentType: "application/json",
-    success: function(data) {
-        let len = data.length;
-        let x = data[len - 1].x;
-        let y = data[len - 1].y;
-        var ctxBc = document.getElementById('bubbleChart').getContext('2d');
-        var bubbleChart = new Chart(ctxBc, {
-            type: 'bubble',
-            data: {
-              datasets: [{
-                label: 'Anchor',
-                data: [{
-                  x: 0,
-                  y: 0,
-                  r: 10
-                },{
-                  x: 10,
-                  y: 10,
-                  r: 10
-                },{
-                  x: 10,
-                  y: 0,
-                  r: 10
-                },{
-                  x: 0,
-                  y: 10,
-                  r: 10
-                }],
-                backgroundColor: "#62088A",
-                hoverBackgroundColor: "#62088A"
-                }, {
-                label: 'Tag',
-                data: [{
-                  x: x,
-                  y: y,
-                  r: 10
-                }],
-                
-                backgroundColor: "#ff6384",
-                hoverBackgroundColor: "#ff6384"
-                }]
-            }
-        })
-    }
-});
+	// datarate
+	$.ajax({
+		type: "GET",
+		url: host_datarate,
+		contentType: "application/json",
+		success: function(data) {
+				let len = data.length;
+				let dr = data[len - 1].dr;
+				var svg = d3.select("#speedometer")
+								.append("svg:svg")
+								.attr("width", 400)
+								.attr("height", 400);
+				var gauge = iopctrl.arcslider()
+								.radius(120)
+								.events(false)
+								.indicator(iopctrl.defaultGaugeIndicator);
+				gauge.axis().orient("in")
+								.normalize(true)
+								.ticks(6)
+								.tickSubdivide(3)
+								.tickSize(10, 8, 10)
+								.tickPadding(5)
+								.scale(d3.scale.linear()
+												.domain([0, 300])
+												.range([-3*Math.PI/4, 3*Math.PI/4]));
+				var segDisplay = iopctrl.segdisplay()
+								.width(80)
+								.digitCount(6)
+								.negative(false)
+								.decimals(0);
+				svg.append("g")
+								.attr("class", "segdisplay")
+								.attr("transform", "translate(130, 200)")
+								.call(segDisplay);
+				svg.append("g")
+								.attr("class", "gauge")
+								.call(gauge);
+				segDisplay.value(dr);
+				gauge.value(dr);
+						}
+	});
+
+	// position
+	$.ajax({
+		type: "GET",
+		url: host_position,
+		contentType: "application/json",
+		success: function(data) {
+				let len = data.length;
+				let x = data[len - 1].x;
+				let y = data[len - 1].y;
+				var ctxBc = document.getElementById('bubbleChart').getContext('2d');
+				var bubbleChart = new Chart(ctxBc, {
+						type: 'bubble',
+						data: {
+							datasets: [{
+								label: 'Anchor',
+								data: [{
+									x: 0,
+									y: 0,
+									r: 10
+								},{
+									x: 10,
+									y: 10,
+									r: 10
+								},{
+									x: 10,
+									y: 0,
+									r: 10
+								},{
+									x: 0,
+									y: 10,
+									r: 10
+								}],
+								backgroundColor: "#62088A",
+								hoverBackgroundColor: "#62088A"
+								}, {
+								label: 'Tag',
+								data: [{
+									x: x,
+									y: y,
+									r: 10
+								}],
+								
+								backgroundColor: "#ff6384",
+								hoverBackgroundColor: "#ff6384"
+								}]
+						}
+				})
+		}
+	});
+
+
+}, updateInverval);
+
