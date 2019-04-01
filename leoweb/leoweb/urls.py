@@ -24,18 +24,9 @@ router = DefaultRouter()
 router.register(r'datarate', datarates.views.DatarateViewSet)
 router.register(r'position', position.views.PositionViewSet)
 
-def fake_view(*args, **kwargs):
-    """ This view should never be called because the URL paths
-        that map here will be served by nginx directly.
-    """
-    raise Exception("This should never be called!")
-
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', views.homepage),
-    url(r'^start_stream', views.start_stream, name="start-stream"),
-    url(r'^stop_stream', views.stop_stream, name="stop-stream"),
-    url(r'live/<username>/index.m3u8', fake_view, name="hls-url"),
     url(r'^api/', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]

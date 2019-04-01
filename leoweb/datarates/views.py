@@ -11,4 +11,4 @@ from rest_framework.permissions import IsAuthenticated
 class DatarateViewSet(viewsets.ModelViewSet):
     queryset = Datarate.objects.all()
     serializer_class = DatarateSerializer
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
