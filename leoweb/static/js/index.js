@@ -1,7 +1,8 @@
+console.log('??????')
 console.log('XDD')
 // http://api.jquery.com/html/
 const host = 'http://192.168.152.129:8000/api/datarate/';
-
+console.log('XDD')
 $.ajax({
     type: "GET",
     url: host,
@@ -42,3 +43,5 @@ $.ajax({
         gauge.value(dr);
             }
 });
+
+console.log('???')

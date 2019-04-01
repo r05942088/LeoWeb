@@ -1,3 +1,10 @@
+console.log('???XDD')
+// http://api.jquery.com/html/
+const host = 'http://192.168.152.129:8000/api/position/';
+
+
+
+
 var ctxBc = document.getElementById('bubbleChart').getContext('2d');
 
     var bubbleChart = new Chart(ctxBc, {
@@ -27,7 +34,7 @@ var ctxBc = document.getElementById('bubbleChart').getContext('2d');
       }, {
         label: 'Tag',
         data: [{
-      x: 5,
+      x: 6,
       y: 5,
       r: 10
     }],
