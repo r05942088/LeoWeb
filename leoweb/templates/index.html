@@ -7,7 +7,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Material Design Bootstrap</title>
+    <title>Vedio Streaming</title>
     
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css">
@@ -54,20 +54,10 @@
                 <!-- temeral video streaming -->
                 <div class="row-sm align-items-end">
                     <div class="col-md align-self-center">
-                        <div style="height: 300px;">
-                            <div class="card shadow">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Streaming</h6>
-                                </div>
-
-                                <!-- Card image -->
-                                <img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Others/images/43.jpg" alt="Card image cap">
-
-                            </div>
-                        </div>
+                        <video id="test_video" controls autoplay src="rtsp://192.168.1.25:8000/"></video>
                     </div>
                 </div>
-                <!-- temeral video streaming -->
+                <!-- temperal video streaming -->
             </div>
             <!-- Grid column -->
             </div>
@@ -103,6 +93,7 @@
 <script type="text/javascript" src="http://iop.io/js/iopctrl.js"></script>
 <!-- Custom JavaScript  -->
 <script type="text/javascript" src="{% static 'js/index.js' %}"></script>
+
 
 </body>
 </html>

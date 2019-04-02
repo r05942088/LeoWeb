@@ -1,4 +1,4 @@
-#!/home/christy/LeoDjango/VENV/bin/python
+#!/home/christy/LeoWeb/VENV/bin/python
 from django.core import management
 
 if __name__ == "__main__":

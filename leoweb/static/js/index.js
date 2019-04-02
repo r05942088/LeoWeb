@@ -1,6 +1,8 @@
 const host_datarate = 'http://192.168.152.129:8000/api/datarate/';
 const host_position = 'http://192.168.152.129:8000/api/position/';
 
+
+
 // guage
 function Gauge(placeholderName, configuration)
 {
@@ -263,6 +265,7 @@ function Gauge(placeholderName, configuration)
 	// initialization
 	this.configure(configuration);	
 }
+
 
 var svg = d3.select("#speedometer")
                 .append("svg:svg")
