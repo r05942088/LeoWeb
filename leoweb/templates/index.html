@@ -18,6 +18,11 @@
  
     <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Play:700,400' type='text/css'>
     <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/video.css' %}">
+    <link href="https://vjs.zencdn.net/7.4.1/video-js.css" rel="stylesheet">
+
+    <!-- If you'd like to support IE8 (for Video.js versions prior to v7) -->
+    <script src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script>
 </head>
 
 <body>
@@ -54,7 +59,15 @@
                 <!-- temeral video streaming -->
                 <div class="row-sm align-items-end">
                     <div class="col-md align-self-center">
-                        <video id="test_video" controls autoplay src="rtsp://192.168.1.25:8000/"></video>
+                        <!-- <video id=example-video width=300 height=200 class="video-js vjs-default-skin" controls> -->
+                          <!-- <source -->
+                             <!-- src="http://192.168.1.25:8080/camera/livestream.m3u8" -->
+                             <!-- type="application/x-mpegURL"> -->
+                        <!-- </video> -->
+                        <video id="my_video_1" class="video-js vjs-default-skin" controls preload="auto" width="300" height="200" 
+                            data-setup='{}'>
+                            <source src="http://192.168.1.25:8080/camera/livestream.m3u8" type="application/x-mpegURL">
+                        </video>
                     </div>
                 </div>
                 <!-- temperal video streaming -->
@@ -93,6 +106,12 @@
 <script type="text/javascript" src="http://iop.io/js/iopctrl.js"></script>
 <!-- Custom JavaScript  -->
 <script type="text/javascript" src="{% static 'js/index.js' %}"></script>
+<script src='https://vjs.zencdn.net/7.4.1/video.js'></script>
+
+<script>
+var player = videojs('example-video');
+player.play();
+</script>
 
 
 </body>

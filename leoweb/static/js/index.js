@@ -1,5 +1,5 @@
-const host_datarate = 'http://192.168.152.129:8000/api/datarate/';
-const host_position = 'http://192.168.152.129:8000/api/position/';
+const host_datarate = '/api/datarate/';
+const host_position = '/api/position/';
 
 
 
@@ -335,6 +335,15 @@ var bubbleChart = new Chart(ctxBc, {
                 backgroundColor: "#ff6384",
                 hoverBackgroundColor: "#ff6384"
                 }]
+        },
+        options: {
+          scales: {
+            yAxes: [{
+              ticks: {
+                equal: true
+              }
+            }]
+          }
         }
 })
 
